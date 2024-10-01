@@ -180,28 +180,25 @@ mod tests {
         assert!(super::compare_strings_case_insensitive("Hello", "hello"));
         assert!(super::compare_strings_case_insensitive("hello", "hello"));
 
-        assert_eq!(
-            false,
-            super::compare_strings_case_insensitive("Yes", "hello")
+        assert!(
+            !super::compare_strings_case_insensitive("Yes", "hello")
         );
 
-        assert_eq!(false, super::compare_strings_case_insensitive("Yes", "yey"));
+        assert!(!super::compare_strings_case_insensitive("Yes", "yey"));
     }
 
     #[test]
     fn test_starts_with() {
         assert!(super::starts_with_case_insensitive("/my/path", "/my/"));
 
-        assert_eq!(
-            false,
-            super::starts_with_case_insensitive("/my/path", "my/")
+        assert!(
+            !super::starts_with_case_insensitive("/my/path", "my/")
         );
 
-        assert_eq!(
-            false,
-            super::starts_with_case_insensitive("/my/path", "my/path1")
+        assert!(
+            !super::starts_with_case_insensitive("/my/path", "my/path1")
         );
 
-        assert_eq!(true, super::starts_with_case_insensitive("/my/path", "/"));
+        assert!(super::starts_with_case_insensitive("/my/path", "/"));
     }
 }

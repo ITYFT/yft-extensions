@@ -1,14 +1,9 @@
+#[derive(Default)]
 pub struct StringBuilder {
     buffer: String,
 }
 
 impl StringBuilder {
-    pub fn new() -> Self {
-        Self {
-            buffer: String::new(),
-        }
-    }
-
     pub fn append_str(&mut self, s: &str) {
         self.buffer.push_str(s)
     }

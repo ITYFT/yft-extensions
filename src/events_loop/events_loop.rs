@@ -1,6 +1,6 @@
 use std::{sync::Arc, time::Duration};
 
-use crate::{ApplicationStates, Logger};
+use crate::{ApplicationStates, AppLogger};
 
 use super::{EventsLoopInner, EventsLoopMode, EventsLoopPublisher, EventsLoopTick};
 
@@ -11,10 +11,7 @@ pub enum EventsLoopMessage<TModel: Send + Sync + 'static> {
 
 impl<TModel: Send + Sync + 'static> EventsLoopMessage<TModel> {
     pub fn is_shutdown(&self) -> bool {
-        match self {
-            EventsLoopMessage::Shutdown => true,
-            _ => false,
-        }
+        matches!(self, EventsLoopMessage::Shutdown)
     }
 
     pub fn unwrap_message(self) -> TModel {
@@ -29,15 +26,15 @@ pub struct EventsLoop<TModel: Send + Sync + 'static> {
     inner: EventsLoopInner<TModel>,
     iteration_timeout: Duration,
     name: Arc<String>,
-    logger: Arc<dyn Logger + Send + Sync + 'static>,
+    logger: Arc<dyn AppLogger + Send + Sync + 'static>,
 }
 
 impl<TModel: Send + Sync + 'static> EventsLoop<TModel> {
-    pub fn new(name: String, logger: Arc<dyn Logger + Send + Sync + 'static>) -> Self {
+    pub fn new(name: String, logger: Arc<dyn AppLogger + Send + Sync + 'static>) -> Self {
         let name = Arc::new(name);
         Self {
             iteration_timeout: Duration::from_secs(5),
-            inner: EventsLoopInner::new(),
+            inner: EventsLoopInner::default(),
             name,
             logger,
         }
@@ -98,14 +95,14 @@ impl<TModel: Send + Sync + 'static> EventsLoop<TModel> {
                     EventsLoopPublisher::new(self.name.clone(), self.logger.clone());
 
                 self.inner.mode = EventsLoopMode::NoExternalPublisher(publisher);
-                return receiver;
+                receiver
             }
             EventsLoopMode::NoExternalPublisher(_) => {
                 panic!("Event loop is already running in no external publisher mode");
             }
             EventsLoopMode::Publisher(receiver) => {
                 if let Some(receiver) = receiver.take() {
-                    return receiver;
+                    receiver
                 } else {
                     panic!("Event loop is already running in external publisher mode");
                 }

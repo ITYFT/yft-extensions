@@ -2,7 +2,7 @@ use std::{sync::Arc, time::Duration};
 
 use tokio::sync::Mutex;
 
-use crate::{ApplicationStates, Logger, StrOrString};
+use crate::{ApplicationStates, AppLogger};
 
 use super::{events_loop::EventsLoopMessage, EventsLoopTick};
 
@@ -28,13 +28,11 @@ pub struct EventsLoopMutexWrapped<TModel: Send + Sync + 'static> {
 }
 
 impl<TModel: Send + Sync + 'static> EventsLoopMutexWrapped<TModel> {
-    pub fn new(name: impl Into<StrOrString<'static>>) -> Self {
-        let name: String = name.into().to_string();
-
+    pub fn new(name: &str) -> Self {
         let (sender, receiver) = tokio::sync::mpsc::unbounded_channel();
 
         Self {
-            name: Arc::new(name),
+            name: Arc::new(name.to_string()),
             sender,
             iteration_timeout: Duration::from_secs(30),
             inner: Mutex::new(EventsLoopInner::new(receiver)),
@@ -65,7 +63,7 @@ impl<TModel: Send + Sync + 'static> EventsLoopMutexWrapped<TModel> {
     pub async fn start(
         &self,
         app_states: Arc<dyn ApplicationStates + Send + Sync + 'static>,
-        logger: Arc<dyn Logger + Send + Sync + 'static>,
+        logger: Arc<dyn AppLogger + Send + Sync + 'static>,
     ) {
         let mut write_access = self.inner.lock().await;
 

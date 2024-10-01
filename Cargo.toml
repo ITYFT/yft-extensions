@@ -27,8 +27,3 @@ hex = { version = "*", optional = true }
 serde_json = "*"
 criterion = "*"
 uuid = {version = "*", features = ["v4"]}
-
-[[bench]]
-name = "sorted_vec_vs_hashmap"
-harness = false
-

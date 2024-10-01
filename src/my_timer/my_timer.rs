@@ -1,6 +1,6 @@
 use std::{collections::HashMap, sync::Arc, time::Duration};
 
-use crate::{ApplicationStates, Logger};
+use crate::{ApplicationStates, AppLogger};
 
 use super::MyTimerTick;
 
@@ -52,7 +52,7 @@ impl MyTimer {
     pub fn start(
         &self,
         app_states: Arc<dyn ApplicationStates + Send + Sync + 'static>,
-        logger: Arc<dyn Logger + Send + Sync + 'static>,
+        logger: Arc<dyn AppLogger + Send + Sync + 'static>,
     ) {
         let timers = self.timers.clone();
         tokio::spawn(timer_loop(
@@ -83,7 +83,7 @@ async fn timer_loop(
     timers: Vec<(String, Arc<dyn MyTimerTick + Send + Sync + 'static>)>,
     interval: Duration,
     app_states: Arc<dyn ApplicationStates + Send + Sync + 'static>,
-    logger: Arc<dyn Logger + Send + Sync + 'static>,
+    logger: Arc<dyn AppLogger + Send + Sync + 'static>,
     iteration_timeout: Duration,
     delay_before_first_tick: bool,
 ) {

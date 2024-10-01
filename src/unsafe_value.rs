@@ -35,69 +35,69 @@ impl<T: Clone + Copy + Debug> Deref for UnsafeValue<T> {
     }
 }
 
-impl Into<UnsafeValue<bool>> for bool {
-    fn into(self) -> UnsafeValue<bool> {
-        UnsafeValue::new(self)
+impl From<bool> for UnsafeValue<bool> {
+    fn from(val: bool) -> Self {
+        UnsafeValue::new(val)
     }
 }
 
-impl Into<UnsafeValue<u8>> for u8 {
-    fn into(self) -> UnsafeValue<u8> {
-        UnsafeValue::new(self)
+impl From<u8> for UnsafeValue<u8> {
+    fn from(val: u8) -> Self {
+        UnsafeValue::new(val)
     }
 }
 
-impl Into<UnsafeValue<i8>> for i8 {
-    fn into(self) -> UnsafeValue<i8> {
-        UnsafeValue::new(self)
+impl From<i8> for UnsafeValue<i8> {
+    fn from(val: i8) -> Self {
+        UnsafeValue::new(val)
     }
 }
 
-impl Into<UnsafeValue<u16>> for u16 {
-    fn into(self) -> UnsafeValue<u16> {
-        UnsafeValue::new(self)
+impl From<u16> for UnsafeValue<u16> {
+    fn from(val: u16) -> Self {
+        UnsafeValue::new(val)
     }
 }
 
-impl Into<UnsafeValue<i16>> for i16 {
-    fn into(self) -> UnsafeValue<i16> {
-        UnsafeValue::new(self)
+impl From<i16> for UnsafeValue<i16> {
+    fn from(val: i16) -> Self {
+        UnsafeValue::new(val)
     }
 }
 
-impl Into<UnsafeValue<u32>> for u32 {
-    fn into(self) -> UnsafeValue<u32> {
-        UnsafeValue::new(self)
+impl From<u32> for UnsafeValue<u32> {
+    fn from(val: u32) -> Self {
+        UnsafeValue::new(val)
     }
 }
 
-impl Into<UnsafeValue<i32>> for i32 {
-    fn into(self) -> UnsafeValue<i32> {
-        UnsafeValue::new(self)
+impl From<i32> for UnsafeValue<i32> {
+    fn from(val: i32) -> Self {
+        UnsafeValue::new(val)
     }
 }
 
-impl Into<UnsafeValue<u64>> for u64 {
-    fn into(self) -> UnsafeValue<u64> {
-        UnsafeValue::new(self)
+impl From<u64> for UnsafeValue<u64> {
+    fn from(val: u64) -> Self {
+        UnsafeValue::new(val)
     }
 }
 
-impl Into<UnsafeValue<i64>> for i64 {
-    fn into(self) -> UnsafeValue<i64> {
-        UnsafeValue::new(self)
+impl From<i64> for UnsafeValue<i64> {
+    fn from(val: i64) -> Self {
+        UnsafeValue::new(val)
     }
 }
 
-impl Into<UnsafeValue<usize>> for usize {
-    fn into(self) -> UnsafeValue<usize> {
-        UnsafeValue::new(self)
+impl From<usize> for UnsafeValue<usize> {
+    fn from(val: usize) -> Self {
+        UnsafeValue::new(val)
     }
 }
 
-impl Into<UnsafeValue<isize>> for isize {
-    fn into(self) -> UnsafeValue<isize> {
-        UnsafeValue::new(self)
+impl From<isize> for UnsafeValue<isize> {
+    fn from(val: isize) -> Self {
+        UnsafeValue::new(val)
     }
 }
 

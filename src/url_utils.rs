@@ -13,7 +13,7 @@ impl<'s> HostEndpoint<'s> {
         let mut mid = None;
         let mut right = None;
 
-        for itm in src.split(":") {
+        for itm in src.split(':') {
             if left.is_none() {
                 left = Some(itm);
                 continue;

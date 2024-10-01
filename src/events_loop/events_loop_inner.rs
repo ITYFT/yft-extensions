@@ -7,8 +7,8 @@ pub struct EventsLoopInner<TModel: Send + Sync + 'static> {
     pub mode: EventsLoopMode<TModel>,
 }
 
-impl<TModel: Send + Sync + 'static> EventsLoopInner<TModel> {
-    pub fn new() -> Self {
+impl<TModel: Send + Sync + 'static> Default for EventsLoopInner<TModel>  {
+    fn default() -> Self {
         Self {
             events_loop_tick: None,
             mode: EventsLoopMode::Unknown,

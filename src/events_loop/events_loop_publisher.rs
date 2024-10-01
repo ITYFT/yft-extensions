@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-use crate::Logger;
+use crate::AppLogger;
 
 use super::events_loop::EventsLoopMessage;
 
@@ -8,13 +8,13 @@ pub struct EventsLoopPublisher<TModel: Send + Sync + 'static> {
     name: Arc<String>,
     sender: tokio::sync::mpsc::UnboundedSender<EventsLoopMessage<TModel>>,
 
-    logger: Arc<dyn Logger + Send + Sync + 'static>,
+    logger: Arc<dyn AppLogger + Send + Sync + 'static>,
 }
 
 impl<TModel: Send + Sync + 'static> EventsLoopPublisher<TModel> {
     pub fn new(
         name: Arc<String>,
-        logger: Arc<dyn Logger + Send + Sync + 'static>,
+        logger: Arc<dyn AppLogger + Send + Sync + 'static>,
     ) -> (
         Self,
         tokio::sync::mpsc::UnboundedReceiver<EventsLoopMessage<TModel>>,
@@ -31,7 +31,7 @@ impl<TModel: Send + Sync + 'static> EventsLoopPublisher<TModel> {
     }
 
     pub fn send(&self, model: TModel) {
-        if let Err(_) = self.sender.send(EventsLoopMessage::NewMessage(model)) {
+        if self.sender.send(EventsLoopMessage::NewMessage(model)).is_err() {
             println!("Can not send model to event loop {}", self.name.as_str());
         }
     }
@@ -41,7 +41,7 @@ impl<TModel: Send + Sync + 'static> EventsLoopPublisher<TModel> {
             self.logger.write_error(
                 format!("Stop EventLoop {}", self.name),
                 format!("Can not send shutdown message to event loop {:?}", err),
-                None.into(),
+                None,
             );
         }
     }
